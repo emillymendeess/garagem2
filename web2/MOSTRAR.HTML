@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Veículos</title>
+    <link rel="stylesheet" href="garagem.css"> <!-- CSS específico para esta página -->
+
+    <!-- Estilos básicos e para o botão de navegação (se não estiverem em garagem.css) -->
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #e8f0fe;
+            /* Fundo diferente para diferenciar */
+            color: #333;
+        }
+
+        h1,
+        h2 {
+            color: #ce3261;
+            /* Azul temático */
+            text-align: center;
+            /* Centralizar títulos */
+        }
+
+        /* Estilo para o botão de navegação (similar ao index.html) */
+        .botao-navegacao {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 15px 5px 20px 0;
+            /* Margem inferior maior */
+            background-color: #da3185;
+            /* Azul um pouco mais claro */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s ease;
+        }
+
+        .botao-navegacao:hover,
+        .botao-navegacao:focus {
+            background-color: #e24aa8;
+            outline: 2px solid #dd1e87;
+            outline-offset: 2px;
+        }
+
+        /* Estilos para as "telas" (divs) */
+        .tela {
+            border: 1px solid #b0bec5;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            /* Centralizar conteúdo das telas */
+        }
+
+        /* Esconder telas por padrão (o JS deve mostrar a ativa) */
+        #telaCarro,
+        #telaEsportivo,
+        #telaCaminhao {
+            display: none;
+        }
+
+        .info-veiculo {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            min-height: 40px;
+            /* Garante espaço mesmo vazio */
+            text-align: left;
+            /* Alinha texto da info à esquerda */
+            font-family: monospace;
+            /* Fonte monoespaçada para dados */
+        }
+
+        /* Estilos gerais para botões de ação dentro das telas */
+        .tela button {
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #f19ad0;
+            /* Verde */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: background-color 0.2s ease;
+        }
+
+        .tela button:hover {
+            background-color: #e7a3c8;
+        }
+
+        /* Botão de voltar com cor diferente */
+        .tela button[id^="voltar"] {
+            /* Seleciona botões cujo ID começa com "voltar" */
+            background-color: #f44336;
+            /* Vermelho */
+        }
+
+        .tela button[id^="voltar"]:hover {
+            background-color: #e53935;
+        }
+
+        /* Estilos para input e label de carga */
+        .tela label {
+            display: inline-block;
+            /* Alinha com o input */
+            margin-right: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .tela input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 80px;
+            /* Largura menor */
+            margin-right: 5px;
+        }
+
+        /* Estilo para imagens */
+        .tela img {
+            max-width: 200px;
+            /* Limita tamanho da imagem */
+            height: auto;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Mensagem */
+        #mensagem {
+            padding: 10px;
+            margin: 15px auto;
+            /* Centraliza horizontalmente */
+            max-width: 600px;
+            /* Limita largura */
+            border-radius: 5px;
+            background-color: #FFF9C4;
+            /* Amarelo claro */
+            border: 1px solid #FBC02D;
+            /* Borda amarela */
+            color: #333;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+            /* Oculta por padrão */
+        }
+
+        #mensagem.success {
+            background-color: #C8E6C9;
+            border-color: #66BB6A;
+        }
+
+        #mensagem.error {
+            background-color: #FFCDD2;
+            border-color: #E57373;
+        }
+    </style>
+</head>
+
+<body>
+ <a href="teste.html"></a>
+    <h1>Simulador de Veículos</h1>
+
+  
+    <div id="mensagem"></div> <!-- Div para exibir mensagens -->
+
+    <!-- Tela Principal (Seleção) -->
+    <div id="telaPrincipal" class="tela">
+        <h2>Escolha um Veículo</h2>
+        <button id="irParaCarro">Ver Carro</button>
+        <button id="irParaEsportivo">Ver Carro Esportivo</button>
+        <button id="irParaCaminhao">Ver Caminhão</button>
+    </div>
+
+    <!-- Tela do Carro -->
+    <div id="telaCarro" class="tela">
+        <h2>Carro</h2>
+        <!-- Adicione alt text descritivo -->
+        <img src="carro rosa.jpg" alt="Ilustração de um carro rosa">
+        <div id="infoCarro" class="info-veiculo">
+            <p>Modelo: carro da barbie</p>
+            <p>Cor: Rosa</p>
+        </div>
+        <button id="ligarCarro">Ligar</button>
+        <button id="desligarCarro">Desligar</button>
+        <button id="acelerarCarro">Acelerar</button>
+        <button id="buzinarCarro">Buzinar</button>
+        <button id="voltarParaGaragemCarro">Voltar</button>
+        <nav style="text-align: center;"> <!-- Centraliza o botão de navegação -->
+            <a href="teste.html" class="botao-navegacao">➡️ Ir para a manutenção</a>
+        </nav>
+    
+
+    </div>
+
+
+    <!-- Tela do Carro Esportivo -->
+    <div id="telaEsportivo" class="tela">
+        <h2>Carro Esportivo</h2>
+        <!-- Adicione alt text descritivo -->
+        <img src="porshe.jpg" alt="Imagem de um Porsche esportivo">
+        <div id="infoEsportivo" class="info-veiculo">Informações do esportivo...</div>
+        <button id="ligarEsportivo">Ligar</button>
+        <button id="desligarEsportivo">Desligar</button>
+        <button id="acelerarEsportivo">Acelerar</button>
+        <button id="buzinarEsportivo">Buzinar</button>
+        <button id="ativarTurbo">Ativar Turbo</button>
+        <button id="desativarTurbo">Desativar Turbo</button>
+        <button id="voltarParaGaragemEsportivo">Voltar</button>
+
+        <nav style="text-align: center;"> <!-- Centraliza o botão de navegação -->
+            <a href="teste.html" class="botao-navegacao">➡️ Ir para a manutenção</a>
+        </nav>
+    
+    </div>
+
+    <!-- Tela do Caminhão -->
+    <div id="telaCaminhao" class="tela">
+        <h2>Caminhão</h2>
+        <!-- Adicione alt text descritivo -->
+        <img src="caminhao.jpg" alt="Imagem de um caminhão">
+        <div id="infoCaminhao" class="info-veiculo">Informações do caminhão...</div>
+        <button id="ligarCaminhao">Ligar</button>
+        <button id="desligarCaminhao">Desligar</button>
+        <button id="acelerarCaminhao">Acelerar</button>
+        <button id="buzinarCaminhao">Buzinar</button>
+        <div> <!-- Agrupa label, input e botão de carregar -->
+            <label for="pesoCarga">Carga (kg):</label>
+            <input type="number" id="pesoCarga" min="0">
+            <button id="carregarCaminhao">Carregar</button>
+        </div>
+        <button id="voltarParaGaragemCaminhao">Voltar</button>
+
+        <nav style="text-align: center;"> <!-- Centraliza o botão de navegação -->
+            <a href="teste.html" class="botao-navegacao">➡️ Ir para a manutenção</a>
+        </nav>
+    
+    </div>
+
+    <!-- Script JS específico para esta página -->
+    <script src="garagem.js"></script>
+    <!-- Script adicional para controle das telas (se não estiver em garagem.js) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const telaPrincipal = document.getElementById('telaPrincipal');
+            const telaCarro = document.getElementById('telaCarro');
+            const telaEsportivo = document.getElementById('telaEsportivo');
+            const telaCaminhao = document.getElementById('telaCaminhao');
+            const mensagemDiv = document.getElementById('mensagem');
+
+            const btnIrCarro = document.getElementById('irParaCarro');
+            const btnIrEsportivo = document.getElementById('irParaEsportivo');
+            const btnIrCaminhao = document.getElementById('irParaCaminhao');
+
+            const btnVoltarCarro = document.getElementById('voltarParaGaragemCarro');
+            const btnVoltarEsportivo = document.getElementById('voltarParaGaragemEsportivo');
+            const btnVoltarCaminhao = document.getElementById('voltarParaGaragemCaminhao');
+
+            function mostrarTela(telaParaMostrar) {
+                telaPrincipal.style.display = 'none';
+                telaCarro.style.display = 'none';
+                telaEsportivo.style.display = 'none';
+                telaCaminhao.style.display = 'none';
+                mensagemDiv.style.display = 'none'; // Esconde mensagem ao trocar tela
+
+                telaParaMostrar.style.display = 'block';
+            }
+
+            // Exibe a tela principal ao carregar
+            mostrarTela(telaPrincipal);
+
+
+            // Navegação Principal -> Veículo
+            btnIrCarro.addEventListener('click', () => mostrarTela(telaCarro));
+            btnIrEsportivo.addEventListener('click', () => mostrarTela(telaEsportivo));
+            btnIrCaminhao.addEventListener('click', () => mostrarTela(telaCaminhao));
+
+            // Navegação Veículo -> Principal
+            btnVoltarCarro.addEventListener('click', () => mostrarTela(telaPrincipal));
+            btnVoltarEsportivo.addEventListener('click', () => mostrarTela(telaPrincipal));
+            btnVoltarCaminhao.addEventListener('click', () => mostrarTela(telaPrincipal));
+
+            // ADICIONAL: Função para exibir mensagens (exemplo, adapte em garagem.js)
+            window.exibirMensagem = function (texto, tipo = 'info') { // info, success, error
+                mensagemDiv.textContent = texto;
+                mensagemDiv.className = ''; // Limpa classes anteriores
+                if (tipo === 'success') {
+                    mensagemDiv.classList.add('success');
+                } else if (tipo === 'error') {
+                    mensagemDiv.classList.add('error');
+                }
+                mensagemDiv.style.display = 'block';
+                // Opcional: esconder após um tempo
+                // setTimeout(() => { mensagemDiv.style.display = 'none'; }, 5000);
+            }
+
+            // Chame as inicializações do seu garagem.js aqui se necessário
+            // ou garanta que ele também use DOMContentLoaded
+        });
+    </script>
+
+</body>
+
+</html>

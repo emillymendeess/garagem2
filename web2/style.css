@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+#carro-imagem {
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+    color: #dd266c;
+}
+
+h1{
+    color: #dd266c;
+}
+
+#caminhao-imagem {
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+#porshe-imagem {
+    width: 200px;
+    margin-bottom: 20px;
+}

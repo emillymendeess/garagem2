@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garagem Inteligente - Manutenção e Agendamento</title>
+    <!-- Link Flatpickr CSS -->
+    <link rel="manutencao.css" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Link your custom CSS -->
+    <link rel="manutencao" href="manutençao.css"> <!-- Renamed from manutençao.css for clarity -->
+</head>
+<body>
+    <div class="container">
+        <h1>Garagem Inteligente</h1>
+
+        <!-- Section to Add Vehicle AND its First Maintenance -->
+        <section id="adicionar-veiculo-manutencao">
+            <h2>Adicionar Novo Veículo e Registrar Primeira Manutenção</h2>
+            <form id="form-adicionar-veiculo">
+
+                <fieldset>
+                    <legend>Detalhes do Veículo</legend>
+                    <label for="tipo-veiculo">Tipo:</label>
+                    <select id="tipo-veiculo" required>
+                        <option value="" disabled selected>Selecione o tipo</option>
+                        <option value="Carro">Carro</option>
+                        <option value="CarroEsportivo">Carro Esportivo</option>
+                        <option value="Caminhao">Caminhão</option>
+                    </select>
+
+                    <label for="modelo-veiculo">Modelo:</label>
+                    <input type="text" id="modelo-veiculo" required>
+
+                    <label for="cor-veiculo">Cor:</label>
+                    <input type="text" id="cor-veiculo" required>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Detalhes da Primeira Manutenção/Entrada</legend>
+                    <label for="data-manutencao-inicial">Data e Hora:</label>
+                    <input type="text" id="data-manutencao-inicial" required placeholder="Selecione data e hora">
+
+                    <label for="tipo-servico-inicial">Tipo de Serviço/Registro:</label>
+                    <input type="text" id="tipo-servico-inicial" value="Entrada na Garagem" required> <!-- Default value -->
+
+                    <label for="custo-manutencao-inicial">Custo (R$):</label>
+                    <input type="number" id="custo-manutencao-inicial" min="0" step="0.01" value="0.00"> <!-- Default value -->
+
+                    <label for="descricao-manutencao-inicial">Descrição:</label>
+                    <textarea id="descricao-manutencao-inicial" placeholder="Ex: Registro inicial, checagem geral..."></textarea>
+                </fieldset>
+
+                <button type="submit">Adicionar Veículo e Registrar Manutenção</button>
+                <div id="mensagem-adicionar" class="mensagem"></div>
+            </form>
+        </section>
+
+        <!-- Section to List Vehicles -->
+        <section id="lista-veiculos">
+            <h2>Veículos na Garagem</h2>
+            <ul id="veiculos-lista">
+                <!-- Veículos serão listados aqui pelo JavaScript -->
+            </ul>
+        </section>
+
+        <!-- Optional: Section for Upcoming Appointments Overview -->
+        <section id="agendamentos-futuros">
+            <h2>Próximos Agendamentos (Todos os Veículos)</h2>
+            <ul id="agendamentos-lista">
+                <!-- Agendamentos futuros serão listados aqui -->
+            </ul>
+        </section>
+    </div>
+
+    <!-- Modal for Viewing Details and Scheduling MORE Maintenance -->
+    <div id="modal-manutencao" class="modal">
+        <div class="modal-content">
+            <span class="close-button">×</span>
+            <h2 id="modal-titulo-veiculo">Detalhes do Veículo</h2>
+            <div id="veiculo-detalhes-modal">
+                <!-- Detalhes do veículo específico serão preenchidos aqui -->
+            </div>
+
+            <h3>Histórico Completo de Manutenção</h3>
+            <ul id="historico-manutencao-lista-modal">
+                <!-- Histórico será preenchido aqui -->
+            </ul>
+
+            <h3>Agendar Nova Manutenção</h3>
+            <form id="form-agendar-manutencao-modal">
+                <input type="hidden" id="veiculo-id-modal"> <!-- To know which vehicle we're adding to -->
+
+                <label for="data-agendamento-modal">Data e Hora:</label>
+                <input type="text" id="data-agendamento-modal" required placeholder="Selecione data e hora">
+
+                <label for="tipo-servico-modal">Tipo de Serviço:</label>
+                <input type="text" id="tipo-servico-modal" required>
+
+                <label for="custo-servico-modal">Custo (R$):</label>
+                <input type="number" id="custo-servico-modal" min="0" step="0.01">
+
+                <label for="descricao-servico-modal">Descrição:</label>
+                <textarea id="descricao-servico-modal"></textarea>
+
+                <button type="submit">Agendar Nova Manutenção</button>
+                <div id="mensagem-agendamento-modal" class="mensagem"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Load Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Optional: Load Flatpickr Portuguese Locale -->
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
+    <!-- Load your custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>

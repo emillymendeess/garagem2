@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carro Interativo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Meu Carro</h1>
+
+    <img id="carro-imagem" src="carro rosa.jpg" alt="Imagem do Carro">
+
+    <p id="velocidade">Velocidade: 0 km/h</p>
+    <p id="Modelo:"> Modelo: Carrinho da barbie</p>
+    <p id="Cor:"> Cor: Rosa</p>
+    <button id="ligar-desligar">Ligar</button>
+    <button id="acelerar">Acelerar</button>
+
+    <!-- Adicionando os elementos de áudio -->
+    <audio id="som-ligar" src="alfa-romeo-brera-accelerating-away-64188.mp3" preload="auto"></audio>
+    <audio id="som-acelerar" src="alfa-romeo-brera-accelerating-away-64188.mp3" loop preload="auto"></audio>
+
+
+    
+    <h1>Carro Esportivo</h1>
+    <img id="porshe-imagem" src="porshe.jpg" alt="imagem carro">
+    <button id="ligarCarroEsportivo">Ligar</button>
+    <button id="desligarCarroEsportivo">Desligar</button>
+    <button id="acelerarCarroEsportivo">Acelerar</button>
+    <button id="frearCarroEsportivo">Frear</button>
+    <button id="ativarTurbo">Ativar Turbo</button>
+    <button id="desativarTurbo">Desativar Turbo</button>
+    <p id="carroEsportivoStatus"></p>
+
+    <h1>Caminhão</h1>
+    <img id="caminhao-imagem" src="caminhao.jpg" alt="imagem carro">
+    <button id="ligarCaminhao">Ligar</button>
+    <button id="desligarCaminhao">Desligar</button>
+    <button id="acelerarCaminhao">Acelerar</button>
+    <button id="frearCaminhao">Frear</button>
+    <input type="number" id="carga" placeholder="Carga (1000kg)">
+    <button id="carregar">Carregar</button>
+    <p id="caminhaoStatus"></p>
+
+    <script src="script.js"></script>
+
+    <script src="script.js"></script>
+    <script src="classebase.js"></script>
+    <script src="classecaminhao.js"></script>
+    <script src="classecarro.js"></script>
+    <script src="classecarroesportivo.js"></script>
+
+    <script>
+
+        const meuCarro = new Carro('carro da barbie', 'rosa');
+        const meuCarroEsportivo = new CarroEsportivo('porshe', 'rosa');
+        const meuCaminhao = new Caminhao('caminhão', 'rosa', 10000);
+
+        document.getElementById('ligarCarroEsportivo').addEventListener('click', () => {
+            meuCarroEsportivo.ligar();
+            atualizarCarroEsportivoStatus();
+        });
+
+        document.getElementById('desligarCarroEsportivo').addEventListener('click', () => {
+            meuCarroEsportivo.desligar();
+            atualizarCarroEsportivoStatus();
+        });
+
+        document.getElementById('acelerarCarroEsportivo').addEventListener('click', () => {
+            meuCarroEsportivo.acelerar(10);
+            atualizarCarroEsportivoStatus();
+        });
+
+        document.getElementById('frearCarroEsportivo').addEventListener('click', () => {
+            meuCarroEsportivo.frear(10);
+            atualizarCarroEsportivoStatus();
+        });
+
+        document.getElementById('ativarTurbo').addEventListener('click', () => {
+            meuCarroEsportivo.ativarTurbo();
+            atualizarCarroEsportivoStatus();
+        });
+
+        document.getElementById('desativarTurbo').addEventListener('click', () => {
+            meuCarroEsportivo.desativarTurbo();
+            atualizarCarroEsportivoStatus();
+        });
+        // Caminhão
+        document.getElementById('ligarCaminhao').addEventListener('click', () => {
+            meuCaminhao.ligar();
+            atualizarCaminhaoStatus();
+        });
+
+        document.getElementById('desligarCaminhao').addEventListener('click', () => {
+            meuCaminhao.desligar();
+            atualizarCaminhaoStatus();
+        });
+
+        document.getElementById('acelerarCaminhao').addEventListener('click', () => {
+            meuCaminhao.acelerar(5);
+            atualizarCaminhaoStatus();
+        });
+
+        document.getElementById('frearCaminhao').addEventListener('click', () => {
+            meuCaminhao.frear(5);
+            atualizarCaminhaoStatus();
+        });
+
+        document.getElementById('carregar').addEventListener('click', () => {
+            const carga = parseInt(document.getElementById('carga').value);
+            meuCaminhao.carregar(carga);
+            atualizarCaminhaoStatus();
+        });
+
+    </script>
+
+</body>
+
+</html>

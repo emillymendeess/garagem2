@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garagem Inteligente com Manutenção</title>
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Estilos Embutidos (Recomendado mover para um arquivo .css separado) -->
+
+    <a href="MOSTRAR.HTML"></a>
+    <style>
+        /* Estilos gerais da página */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            margin: 0;
+            padding: 0 15px 20px 15px;
+            /* Add padding */
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        header {
+            background-color: #f8f9fa;
+            /* Light background for header */
+            padding: 10px 20px;
+            border-bottom: 1px solid #dee2e6;
+            margin: 0 -15px 20px -15px;
+            /* Span full width */
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #4a4a4a;
+            /* Darker grey for better readability */
+            margin-top: 1.5em;
+            /* Add space above headings */
+            margin-bottom: 0.8em;
+        }
+
+        h1 {
+            color: #d80065;
+            /* Bootstrap primary blue */
+            text-align: center;
+            margin-top: 0.5em;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.4em;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #e9ecef;
+            /* Lighter separator */
+            margin: 25px 0;
+        }
+
+        main {
+            max-width: 960px;
+            /* Limit content width */
+            margin: 0 auto;
+            /* Center the main content */
+        }
+
+        /* Botão de navegação */
+        .botao-navegacao {
+            display: inline-block;
+            padding: 8px 12px;
+            /* Slightly smaller */
+            margin: 5px 5px 5px 0;
+            background-color: #6c757d;
+            /* Bootstrap secondary grey */
+            color: white;
+            text-decoration: none;
+            border-radius: 0.25rem;
+            /* Bootstrap style */
+            border: 1px solid #6c757d;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        }
+
+        .botao-navegacao:hover,
+        .botao-navegacao:focus {
+            background-color: #5a6268;
+            border-color: #545b62;
+            outline: none;
+            /* Remove default outline */
+            box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
+            /* Focus ring */
+        }
+
+        /* Seções */
+        .form-section,
+        .list-section {
+            border: 1px solid #dee2e6;
+            /* Bootstrap card border */
+            padding: 20px;
+            margin-bottom: 25px;
+            background-color: #ffffff;
+            /* White background */
+            border-radius: 0.3rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            /* Subtle shadow */
+        }
+
+        /* Títulos das seções */
+        .form-section h3,
+        .list-section h2,
+        .list-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #ee45b6;
+            /* Bootstrap primary blue */
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        /* Itens nas listas */
+        .vehicle-item,
+        .maintenance-item,
+        .schedule-item {
+            border-bottom: 1px solid #e9ecef;
+            padding: 12px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px 15px;
+            /* Row and column gap */
+        }
+
+        .vehicle-item:last-child,
+        .maintenance-item:last-child,
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        .vehicle-item span,
+        .maintenance-item span,
+        .schedule-item span {
+            flex-basis: 140px;
+            /* Allow items to shrink slightly if needed */
+            flex-grow: 1;
+            font-size: 0.95em;
+        }
+
+        .vehicle-item .actions,
+        .maintenance-item .actions,
+        .schedule-item .actions {
+            flex-basis: auto;
+            /* Let buttons determine size */
+            flex-grow: 0;
+            text-align: right;
+            margin-left: auto;
+            /* Push actions to the right */
+        }
+
+        .maintenance-item span strong,
+        .vehicle-item span strong,
+        .schedule-item span strong {
+            color: #495057;
+        }
+
+        /* Subtly emphasize labels */
+
+
+        /* Formulários */
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            /* Slightly bolder labels */
+            color: #495057;
+            /* Bootstrap form label color */
+            font-size: 0.9em;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="datetime-local"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            /* Bootstrap padding */
+            margin-bottom: 1rem;
+            border: 1px solid #ced4da;
+            /* Bootstrap input border */
+            border-radius: 0.25rem;
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #ce1672;
+            /* Bootstrap focus color */
+            box-shadow: 0 0 0 0.2rem rgba(189, 5, 106, 0.25);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        /* Buttons inside forms */
+        form button[type="submit"] {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #c04f8d;
+            /* Primary blue */
+            color: white;
+            border: 1px solid #df319c;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            user-select: none;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        form button[type="submit"]:hover {
+            background-color: #fd2c8e;
+            border-color: #e032ac;
+        }
+
+        form button[type="submit"]:focus {
+            box-shadow: 0 0 0 0.2rem rgba(255, 0, 106, 0.5);
+        }
+
+
+        /* Botões de ação (Detalhes, Remover) */
+        .actions button {
+            padding: 5px 10px;
+            /* Consistent padding */
+            margin-left: 8px;
+            cursor: pointer;
+            border-radius: 0.25rem;
+            border: 1px solid transparent;
+            font-size: 0.85em;
+            line-height: 1.5;
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            user-select: none;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        /* Primary (Details) */
+        .actions button.primary {
+            background-color: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        /* Success green */
+        .actions button.primary:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .actions button.primary:focus {
+            box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
+        }
+
+        /* Secondary (Placeholder/Other) */
+        .actions button.secondary {
+            background-color: #6c757d;
+            color: white;
+            border-color: #6c757d;
+        }
+
+        .actions button.secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+        .actions button.secondary:focus {
+            box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
+        }
+
+        /* Danger (Remove) */
+        .actions button.danger {
+            background-color: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+
+        /* Danger red */
+        .actions button.danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        .actions button.danger:focus {
+            box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.5);
+        }
+
+        /* Notificações */
+        #notificacoes {
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
+            color: #fff;
+            display: none;
+            font-weight: 500;
+        }
+
+        #notificacoes.error {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            display: block;
+        }
+
+        /* Red */
+        #notificacoes.warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #212529;
+            display: block;
+        }
+
+        /* Yellow */
+        #notificacoes.info {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+            display: block;
+        }
+
+        /* Cyan */
+        #notificacoes.success {
+            background-color: #28a745;
+            border-color: #28a745;
+            display: block;
+        }
+
+        /* Green */
+
+        /* Modal (<dialog>) */
+        .modal {
+            border: none;
+            padding: 0;
+            max-width: 100vw;
+            max-height: 100vh;
+            background: transparent;
+            /* position, z-index etc. handled by browser for <dialog> */
+        }
+
+        dialog::backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Standard backdrop */
+        .modal-content {
+            background-color: #ffffff;
+            margin: 5vh auto;
+            /* Vertical margin */
+            padding: 25px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 750px;
+            /* Slightly wider */
+            border-radius: 0.3rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        .close-button {
+            /* Using a button element now */
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            /* Smaller X */
+            font-weight: 700;
+            line-height: 1;
+            color: #000;
+            text-shadow: 0 1px 0 #fff;
+            opacity: 0.5;
+            background-color: transparent;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            color: #000;
+            text-decoration: none;
+            opacity: 0.75;
+        }
+
+        #modalDetalhesVeiculo .info-veiculo {
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        #modalDetalhesVeiculo .info-veiculo p {
+            margin: 0.3rem 0;
+        }
+
+        #modalDetalhesVeiculo .info-veiculo strong {
+            color: #495057;
+        }
+
+        #modalDetalhesVeiculo .actions {
+            /* Actions within the modal */
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #dee2e6;
+            text-align: right;
+        }
+
+        #modalDetalhesVeiculo section {
+            /* Sections inside modal */
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #e9ecef;
+            border-radius: 0.25rem;
+            background-color: #f8f9fa;
+            /* Light bg inside modal */
+        }
+
+        #modalDetalhesVeiculo section h3 {
+            color: #495057;
+            border-bottom-color: #dee2e6;
+            font-size: 1.2em;
+        }
+
+        #modalDetalhesVeiculo fieldset {
+            border-color: #dee2e6;
+        }
+
+        #modalDetalhesVeiculo legend {
+            color: #0056b3;
+            padding: 0 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        #modalDetalhesVeiculo .maintenance-item {
+            background-color: #fff;
+            border-radius: 3px;
+            margin-bottom: 8px;
+        }
+
+        /* White items inside modal */
+
+
+        /* Fieldset / Legend */
+        fieldset {
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            padding: 1.25rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        legend {
+            padding: 0 10px;
+            font-weight: 600;
+            color: #495057;
+            font-size: 1.1em;
+            width: auto;
+            /* Allow legend to take natural width */
+            margin-bottom: 0.5rem;
+        }
+
+        .visually-hidden {
+            /* Standard accessible hide */
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1><span role="img" aria-label="Garagem">🏛️</span> Garagem Inteligente</h1>
+        <nav>
+            <!-- Link para o Simulador Simples (se existir) -->
+            <!-- <a href="mostrar.html" class="botao-navegacao">⬅️ Ir para Simulador Simples</a> -->
+        </nav>
+    </header>
+
+    <main>
+        <div id="notificacoes" role="alert" aria-live="polite"></div> <!-- aria-live added -->
+
+        <!-- Seção para Adicionar Veículos -->
+        <section class="form-section" aria-labelledby="add-vehicle-heading">
+            <h3 id="add-vehicle-heading">Adicionar Novo Veículo</h3>
+            <form id="formAdicionarVeiculo" novalidate> <!-- novalidate prevents browser validation, JS handles it -->
+                <fieldset>
+                    <legend>Dados do Novo Veículo</legend> <!-- Legend made visible -->
+                    <div>
+                        <label for="tipoVeiculo">Tipo:</label>
+                        <select id="tipoVeiculo" required>
+                            <option value="" disabled selected>Selecione o tipo</option>
+                            <option value="Carro">Carro</option>
+                            <option value="CarroEsportivo">Carro Esportivo</option>
+                            <option value="Caminhao">Caminhão</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="modeloVeiculo">Modelo:</label>
+                        <input type="text" id="modeloVeiculo" placeholder="Ex: Fusca, Ferrari 488, Scania R450"
+                            required>
+                    </div>
+                    <div>
+                        <label for="corVeiculo">Cor:</label>
+                        <input type="text" id="corVeiculo" placeholder="Ex: Azul, Vermelho, Prata" required>
+                    </div>
+                    <div id="campoCapacidadeCarga" style="display: none;"> <!-- Hidden by default -->
+                        <label for="capacidadeCargaVeiculo">Capacidade de Carga (kg):</label>
+                        <input type="number" id="capacidadeCargaVeiculo" min="0" placeholder="Ex: 10000">
+                        <!-- Required attribute handled by JS -->
+                    </div>
+                    <button type="submit">Adicionar à Garagem</button>
+                </fieldset>
+            </form>
+        </section>
+
+        <!-- Seção da Garagem -->
+        <section class="list-section" aria-labelledby="garage-heading">
+            <h2 id="garage-heading">Veículos na Garagem</h2>
+            <div id="listaVeiculos">
+                <p>Nenhum veículo na garagem ainda.</p> <!-- Initial state -->
+            </div>
+        </section>
+
+        <!-- Seção de Agendamentos Futuros -->
+        <section class="list-section" aria-labelledby="schedules-heading">
+            <h3 id="schedules-heading"><span role="img" aria-label="Calendário">📅</span> Agendamentos Futuros (Todos os
+                Veículos)</h3>
+            <div id="listaAgendamentosFuturos">
+                <p>Nenhum agendamento futuro encontrado.</p> <!-- Initial state -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal (<dialog>) -->
+    <dialog id="modalDetalhesVeiculo" class="modal" aria-labelledby="modalTituloVeiculo" aria-modal="true">
+        <div class="modal-content">
+            <!-- Use a button element for the close button for better accessibility -->
+            <button class="close-button" aria-label="Fechar modal">×</button>
+            <h2 id="modalTituloVeiculo">Detalhes do Veículo</h2>
+
+            <div id="modalInfoVeiculo" class="info-veiculo">
+                <!-- Vehicle details will be injected here by JS -->
+                <p>Carregando detalhes...</p>
+            </div>
+
+            <div class="actions" id="modalAcoesVeiculo">
+                <!-- Extra actions specific to the vehicle could go here -->
+                <p>Use o formulário abaixo para adicionar registros.</p>
+            </div>
+
+            <section class="list-section" aria-labelledby="maintenance-history-heading">
+                <h3 id="maintenance-history-heading"><span role="img" aria-label="Ferramenta">🔧</span> Histórico e
+                    Agendamentos do Veículo</h3>
+                <div id="modalHistoricoManutencao">
+                    <!-- History/schedule for this vehicle injected here by JS -->
+                    <p>Nenhum registro de manutenção para este veículo.</p>
+                </div>
+            </section>
+
+            <section class="form-section" aria-labelledby="modalFormManutencaoTitulo">
+                <form id="formManutencao" novalidate>
+                    <fieldset>
+                        <legend id="modalFormManutencaoTitulo"><span role="img" aria-label="Sinal de Mais">➕</span>
+                            Registrar Manutenção/Agendamento</legend>
+                        <input type="hidden" id="manutencaoVeiculoId"> <!-- Stores ID of the vehicle being edited -->
+                        <div>
+                            <label for="manutencaoData">Data e Hora:</label>
+                            <!-- Using text input for Flatpickr -->
+                            <input type="text" id="manutencaoData" placeholder="Selecione data e hora..." required>
+                        </div>
+                        <div>
+                            <label for="manutencaoTipo">Tipo de Serviço:</label>
+                            <input type="text" id="manutencaoTipo" placeholder="Ex: Troca de óleo, Revisão" required>
+                        </div>
+                        <div>
+                            <label for="manutencaoCusto">Custo (R$):</label>
+                            <input type="number" id="manutencaoCusto" min="0" step="0.01" placeholder="Ex: 150.00"
+                                required>
+                        </div>
+                        <div>
+                            <label for="manutencaoDescricao">Descrição (Opcional):</label>
+                            <textarea id="manutencaoDescricao" rows="3" placeholder="Detalhes adicionais..."></textarea>
+                        </div>
+                        <button type="submit">Salvar Manutenção</button>
+                    </fieldset>
+                </form>
+            </section>
+        </div>
+    </dialog>
+
+    <!-- Scripts -->
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Flatpickr Portuguese Locale -->
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
+
+    <!-- Principal JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- STATE ---
+            let garagem = []; // Array to hold vehicle objects
+            let proximoId = 1; // Simple ID counter for vehicles
+            let proximoManutencaoId = 1; // Simple ID for maintenance records
+
+            // --- DOM ELEMENTS ---
+            // Add Vehicle Form
+            const formAdicionarVeiculo = document.getElementById('formAdicionarVeiculo');
+            const tipoVeiculoSelect = document.getElementById('tipoVeiculo');
+            const modeloVeiculoInput = document.getElementById('modeloVeiculo');
+            const corVeiculoInput = document.getElementById('corVeiculo');
+            const capacidadeCargaInput = document.getElementById('capacidadeCargaVeiculo');
+            const campoCapacidadeCargaDiv = document.getElementById('campoCapacidadeCarga');
+
+            // Vehicle List Display
+            const listaVeiculosDiv = document.getElementById('listaVeiculos');
+            const listaAgendamentosFuturosDiv = document.getElementById('listaAgendamentosFuturos');
+
+
+            // Notifications
+            const notificacoesDiv = document.getElementById('notificacoes');
+
+            // Modal Elements
+            const modalDetalhes = document.getElementById('modalDetalhesVeiculo');
+            const modalTitulo = document.getElementById('modalTituloVeiculo');
+            const modalInfoVeiculoDiv = document.getElementById('modalInfoVeiculo');
+            const modalHistoricoDiv = document.getElementById('modalHistoricoManutencao');
+            const modalAcoesVeiculoDiv = document.getElementById('modalAcoesVeiculo');
+            const modalCloseButton = modalDetalhes.querySelector('.close-button'); // Get close button
+            const formManutencao = document.getElementById('formManutencao');
+            const manutencaoVeiculoIdInput = document.getElementById('manutencaoVeiculoId');
+            const manutencaoDataInput = document.getElementById('manutencaoData'); // Now a text input
+            const manutencaoTipoInput = document.getElementById('manutencaoTipo');
+            const manutencaoCustoInput = document.getElementById('manutencaoCusto');
+            const manutencaoDescricaoInput = document.getElementById('manutencaoDescricao');
+
+            // --- FLATPCIKR INSTANCE for the modal ---
+            const modalFlatpickr = flatpickr(manutencaoDataInput, {
+                enableTime: true,
+                dateFormat: "d/m/Y H:i", // Use Brazilian format for display/input
+                altInput: true, // Shows user-friendly format, sends standard format
+                altFormat: "d/m/Y H:i",
+                dateFormat: "Y-m-d H:i", // Standard format for storage/comparison
+                locale: "pt",
+                time_24hr: true
+            });
+
+            // --- FUNCTIONS ---
+
+            /**
+             * Displays a notification message.
+             * @param {string} mensagem The message text.
+             * @param {string} tipo 'info', 'success', 'error', 'warning'
+             */
+            function mostrarNotificacao(mensagem, tipo = 'info') {
+                notificacoesDiv.textContent = mensagem;
+                notificacoesDiv.className = tipo; // Resets class and adds the type
+                notificacoesDiv.style.display = 'block';
+
+                // Auto-hide after a few seconds
+                setTimeout(() => {
+                    // Fade out smoothly (optional)
+                    notificacoesDiv.style.opacity = '0';
+                    setTimeout(() => {
+                        notificacoesDiv.style.display = 'none';
+                        notificacoesDiv.className = '';
+                        notificacoesDiv.style.opacity = '1'; // Reset opacity
+                    }, 500); // Wait for fade out
+                }, 4500); // Start fade out slightly before 5 seconds
+            }
+
+            /** Formats date string (YYYY-MM-DD HH:MM) to dd/mm/yyyy HH:MM */
+            function formatarDataHora(dataString) {
+                if (!dataString) return 'N/A';
+                try {
+                    // Flatpickr uses "Y-m-d H:i"
+                    const [datePart, timePart] = dataString.split(' ');
+                    const [year, month, day] = datePart.split('-');
+                    if (!timePart) return `${day}/${month}/${year}`; // Handle date only if needed
+                    return `${day}/${month}/${year} ${timePart}`;
+                } catch (e) {
+                    console.error("Erro ao formatar data:", dataString, e);
+                    return dataString; // Fallback
+                }
+            }
+
+            /** Formats number to BRL currency */
+            function formatarCusto(custo) {
+                const valor = parseFloat(custo);
+                if (isNaN(valor)) return 'N/A';
+                return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            }
+
+
+            /** Renders the list of vehicles in the 'listaVeiculosDiv'. */
+            function renderizarGaragem() {
+                listaVeiculosDiv.innerHTML = ''; // Clear current list
+
+                if (garagem.length === 0) {
+                    listaVeiculosDiv.innerHTML = '<p>Nenhum veículo na garagem ainda.</p>';
+                    return;
+                }
+
+                // Sort vehicles maybe by type or model? Optional.
+                // garagem.sort((a, b) => a.modelo.localeCompare(b.modelo));
+
+                garagem.forEach(veiculo => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'vehicle-item';
+                    itemDiv.dataset.id = veiculo.id;
+
+                    let detalhesVeiculo = `
+                        <span><strong>Tipo:</strong> ${veiculo.tipo}</span>
+                        <span><strong>Modelo:</strong> ${veiculo.modelo}</span>
+                        <span><strong>Cor:</strong> ${veiculo.cor}</span>
+                    `;
+
+                    if (veiculo.tipo === 'Caminhao' && veiculo.capacidadeCarga) {
+                        detalhesVeiculo += `<span><strong>Carga:</strong> ${veiculo.capacidadeCarga.toLocaleString('pt-BR')} kg</span>`;
+                    }
+
+                    detalhesVeiculo += `
+                        <div class="actions">
+                            <button type="button" class="primary btn-detalhes" data-id="${veiculo.id}" aria-label="Ver detalhes de ${veiculo.modelo}">Detalhes</button>
+                            <button type="button" class="danger btn-remover" data-id="${veiculo.id}" aria-label="Remover ${veiculo.modelo}">Remover</button>
+                        </div>
+                    `;
+
+                    itemDiv.innerHTML = detalhesVeiculo;
+                    listaVeiculosDiv.appendChild(itemDiv);
+                });
+
+                attachActionListeners(); // Re-attach listeners to new buttons
+            }
+
+            /** Attaches click listeners to the 'Detalhes' and 'Remover' buttons for vehicles. */
+            function attachActionListeners() {
+                listaVeiculosDiv.querySelectorAll('.btn-detalhes').forEach(button => {
+                    button.removeEventListener('click', handleDetalhesClick); // Prevent duplicates
+                    button.addEventListener('click', handleDetalhesClick);
+                });
+
+                listaVeiculosDiv.querySelectorAll('.btn-remover').forEach(button => {
+                    button.removeEventListener('click', handleRemoverClick); // Prevent duplicates
+                    button.addEventListener('click', handleRemoverClick);
+                });
+            }
+
+            /** Handles the click on the 'Detalhes' button. */
+            function handleDetalhesClick(event) {
+                const vehicleId = parseInt(event.target.dataset.id);
+                abrirModalDetalhes(vehicleId);
+            }
+
+            /** Handles the click on the 'Remover' vehicle button. */
+            function handleRemoverClick(event) {
+                const vehicleId = parseInt(event.target.dataset.id);
+                removerVeiculo(vehicleId);
+            }
+
+            /** Removes a vehicle from the garage after confirmation. */
+            function removerVeiculo(id) {
+                const veiculoIndex = garagem.findIndex(v => v.id === id);
+                if (veiculoIndex === -1) return;
+
+                const veiculo = garagem[veiculoIndex];
+                if (confirm(`Tem certeza que deseja remover o ${veiculo.tipo} ${veiculo.modelo} (ID: ${id})?`)) {
+                    garagem.splice(veiculoIndex, 1); // Remove from array
+                    renderizarGaragem();
+                    renderizarAgendamentosFuturos(); // Update schedule list
+                    mostrarNotificacao(`Veículo "${veiculo.modelo}" removido com sucesso.`, 'info');
+                }
+            }
+
+            /** Opens and populates the details modal for a specific vehicle. */
+            function abrirModalDetalhes(vehicleId) {
+                const veiculo = garagem.find(v => v.id === vehicleId);
+                if (!veiculo) {
+                    mostrarNotificacao('Erro: Veículo não encontrado.', 'error');
+                    return;
+                }
+
+                // Populate Modal Title
+                modalTitulo.textContent = `Detalhes: ${veiculo.tipo} ${veiculo.modelo}`;
+
+                // Populate Basic Info
+                let infoHtml = `
+                    <p><strong>ID:</strong> ${veiculo.id}</p>
+                    <p><strong>Tipo:</strong> ${veiculo.tipo}</p>
+                    <p><strong>Modelo:</strong> ${veiculo.modelo}</p>
+                    <p><strong>Cor:</strong> ${veiculo.cor}</p>
+                `;
+                if (veiculo.tipo === 'Caminhao' && veiculo.capacidadeCarga) {
+                    infoHtml += `<p><strong>Capacidade:</strong> ${veiculo.capacidadeCarga.toLocaleString('pt-BR')} kg</p>`;
+                }
+                modalInfoVeiculoDiv.innerHTML = infoHtml;
+
+                // Populate Maintenance History
+                renderizarHistoricoModal(veiculo);
+
+                // Prepare Maintenance Form
+                formManutencao.reset(); // Clear previous entries
+                manutencaoVeiculoIdInput.value = veiculo.id; // Set hidden ID for the form
+                modalFlatpickr.clear(); // Clear the date picker
+
+                // Show the modal
+                if (modalDetalhes && typeof modalDetalhes.showModal === 'function') {
+                    modalDetalhes.showModal();
+                } else {
+                    console.error("Modal dialog not found or showModal not supported.");
+                }
+            }
+
+            /** Closes the details modal. */
+            function fecharModal() {
+                if (modalDetalhes && typeof modalDetalhes.close === 'function') {
+                    modalDetalhes.close();
+                }
+            }
+
+
+            /** Renders the maintenance history/schedule for the specific vehicle inside the modal. */
+            function renderizarHistoricoModal(veiculo) {
+                modalHistoricoDiv.innerHTML = ''; // Clear previous
+                if (!veiculo.historicoManutencao || veiculo.historicoManutencao.length === 0) {
+                    modalHistoricoDiv.innerHTML = '<p>Nenhum registro de manutenção encontrado para este veículo.</p>';
+                    return;
+                }
+
+                // Sort history - newest first based on standard date string
+                const historicoOrdenado = [...veiculo.historicoManutencao].sort((a, b) => {
+                    return (b.data || "").localeCompare(a.data || "");
+                });
+
+                historicoOrdenado.forEach(manut => {
+                    const item = document.createElement('div');
+                    item.className = 'maintenance-item';
+                    item.dataset.manutId = manut.id; // Use unique maintenance ID
+
+                    item.innerHTML = `
+                        <span><strong>Data:</strong> ${formatarDataHora(manut.data)}</span>
+                        <span><strong>Serviço:</strong> ${manut.tipoServico || 'N/A'}</span>
+                        <span><strong>Custo:</strong> ${formatarCusto(manut.custo)}</span>
+                        ${manut.descricao ? `<span style="flex-basis: 100%;"><strong>Descrição:</strong> ${manut.descricao}</span>` : ''}
+                        <div class="actions">
+                            <button type="button" class="danger btn-remover-manutencao" data-manut-id="${manut.id}" aria-label="Remover manutenção de ${formatarDataHora(manut.data)}">Remover</button>
+                         </div>
+                    `;
+                    modalHistoricoDiv.appendChild(item);
+                });
+
+                // Add listeners AFTER adding buttons
+                attachMaintenanceActionListeners(veiculo.id);
+            }
+
+            /** Attaches click listeners for maintenance item removal buttons */
+            function attachMaintenanceActionListeners(veiculoId) {
+                modalHistoricoDiv.querySelectorAll('.btn-remover-manutencao').forEach(btn => {
+                    btn.removeEventListener('click', handleRemoverManutencaoClick); // Prevent duplicates
+                    // Pass veiculoId along with the event handler
+                    btn.addEventListener('click', (event) => handleRemoverManutencaoClick(event, veiculoId));
+                });
+            }
+
+            /** Handles removing a specific maintenance record from a vehicle. */
+            function handleRemoverManutencaoClick(event, veiculoId) {
+                const manutencaoId = parseInt(event.target.dataset.manutId);
+
+                const veiculo = garagem.find(v => v.id === veiculoId);
+                if (!veiculo) return;
+
+                const manutencaoIndex = veiculo.historicoManutencao.findIndex(m => m.id === manutencaoId);
+                if (manutencaoIndex === -1) return;
+
+                const manutencao = veiculo.historicoManutencao[manutencaoIndex];
+
+                if (confirm(`Remover o registro "${manutencao.tipoServico}" de ${formatarDataHora(manutencao.data)}?`)) {
+                    veiculo.historicoManutencao.splice(manutencaoIndex, 1); // Remove from array
+                    renderizarHistoricoModal(veiculo); // Re-render the history list within the modal
+                    renderizarAgendamentosFuturos(); // Update the global future appointments list
+                    mostrarNotificacao('Registro de manutenção removido.', 'info');
+                }
+            }
+
+            /** Renders the list of all upcoming scheduled maintenances. */
+            function renderizarAgendamentosFuturos() {
+                listaAgendamentosFuturosDiv.innerHTML = ''; // Clear list
+
+                let todosAgendamentos = [];
+                const agora = new Date(); // Get current date/time for comparison
+
+                garagem.forEach(veiculo => {
+                    if (veiculo.historicoManutencao) {
+                        veiculo.historicoManutencao.forEach(manut => {
+                            if (manut.data) {
+                                try {
+                                    // Date string is YYYY-MM-DD HH:MM
+                                    const dataAgendamento = new Date(manut.data.replace(' ', 'T') + ':00'); // Add seconds for Date object
+                                    if (!isNaN(dataAgendamento) && dataAgendamento > agora) {
+                                        todosAgendamentos.push({
+                                            veiculoInfo: `${veiculo.tipo} ${veiculo.modelo} (${veiculo.cor})`,
+                                            ...manut
+                                        });
+                                    }
+                                } catch (e) { console.error("Error parsing date for future schedule:", manut.data, e); }
+                            }
+                        });
+                    }
+                });
+
+                // Sort by date (earliest first)
+                todosAgendamentos.sort((a, b) => {
+                    try {
+                        return new Date(a.data.replace(' ', 'T') + ':00') - new Date(b.data.replace(' ', 'T') + ':00');
+                    } catch (e) { return 0; } // Fallback sort if parsing fails
+                });
+
+                if (todosAgendamentos.length === 0) {
+                    listaAgendamentosFuturosDiv.innerHTML = '<p>Nenhum agendamento futuro encontrado.</p>';
+                    return;
+                }
+
+                todosAgendamentos.forEach(ag => {
+                    const item = document.createElement('div');
+                    item.className = 'schedule-item';
+                    item.innerHTML = `
+                        <span><strong>Veículo:</strong> ${ag.veiculoInfo}</span>
+                        <span><strong>Data:</strong> ${formatarDataHora(ag.data)}</span>
+                        <span><strong>Serviço:</strong> ${ag.tipoServico || 'N/A'}</span>
+                        <span><strong>Custo Est.:</strong> ${formatarCusto(ag.custo)}</span>
+                    `;
+                    listaAgendamentosFuturosDiv.appendChild(item);
+                });
+            }
+
+
+            // --- EVENT LISTENERS ---
+
+            // Show/Hide Capacity field based on vehicle type
+            tipoVeiculoSelect.addEventListener('change', () => {
+                if (tipoVeiculoSelect.value === 'Caminhao') {
+                    campoCapacidadeCargaDiv.style.display = 'block';
+                    capacidadeCargaInput.required = true; // Make required when visible
+                } else {
+                    campoCapacidadeCargaDiv.style.display = 'none';
+                    capacidadeCargaInput.required = false; // Not required when hidden
+                    capacidadeCargaInput.value = ''; // Clear value if hiding
+                }
+            });
+
+            // Handle Add Vehicle Form Submission
+            formAdicionarVeiculo.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent default page reload
+
+                // Get form values
+                const tipo = tipoVeiculoSelect.value;
+                const modelo = modeloVeiculoInput.value.trim();
+                const cor = corVeiculoInput.value.trim();
+                const capacidade = capacidadeCargaInput.value;
+
+                // Validation
+                let isValid = true;
+                if (!tipo) { mostrarNotificacao('Erro: Selecione o Tipo de veículo.', 'error'); tipoVeiculoSelect.focus(); isValid = false; }
+                else if (!modelo) { mostrarNotificacao('Erro: Informe o Modelo do veículo.', 'error'); modeloVeiculoInput.focus(); isValid = false; }
+                else if (!cor) { mostrarNotificacao('Erro: Informe a Cor do veículo.', 'error'); corVeiculoInput.focus(); isValid = false; }
+                else if (tipo === 'Caminhao' && (!capacidade || parseFloat(capacidade) <= 0)) {
+                    mostrarNotificacao('Erro: Informe uma Capacidade de Carga válida para Caminhão.', 'error');
+                    capacidadeCargaInput.focus(); isValid = false;
+                }
+
+                if (!isValid) return; // Stop if validation failed
+
+                // Create new vehicle object
+                const novoVeiculo = {
+                    id: proximoId++,
+                    tipo: tipo,
+                    modelo: modelo,
+                    cor: cor,
+                    historicoManutencao: [] // Initialize history
+                };
+
+                if (tipo === 'Caminhao') {
+                    novoVeiculo.capacidadeCarga = parseFloat(capacidade);
+                }
+
+                garagem.push(novoVeiculo);
+                renderizarGaragem(); // Update the UI
+                renderizarAgendamentosFuturos(); // Refresh future list (unlikely to change here)
+
+                // Reset form & provide feedback
+                formAdicionarVeiculo.reset(); // Resets all fields
+                campoCapacidadeCargaDiv.style.display = 'none'; // Ensure capacity field is hidden again
+                capacidadeCargaInput.required = false;
+                mostrarNotificacao(`Veículo "${modelo}" adicionado com sucesso!`, 'success');
+                tipoVeiculoSelect.focus(); // Focus back on the first field
+            });
+
+
+            // Handle Maintenance/Schedule Form Submission (inside the modal)
+            formManutencao.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const veiculoId = parseInt(manutencaoVeiculoIdInput.value);
+                // Get the standard date format from Flatpickr's hidden input or instance
+                const data = modalFlatpickr.selectedDates[0] ? modalFlatpickr.formatDate(modalFlatpickr.selectedDates[0], "Y-m-d H:i") : null;
+                const tipoServico = manutencaoTipoInput.value.trim();
+                const custo = manutencaoCustoInput.value; // Keep as string initially for parsing check
+                const descricao = manutencaoDescricaoInput.value.trim();
+
+
+                // Validation
+                let isValid = true;
+                if (!veiculoId) { mostrarNotificacao('Erro no modal: ID do veículo não encontrado.', 'error'); isValid = false; }
+                else if (!data) { mostrarNotificacao('Erro no modal: Data e Hora são obrigatórios.', 'error'); manutencaoDataInput.focus(); isValid = false; }
+                else if (!tipoServico) { mostrarNotificacao('Erro no modal: Tipo de Serviço é obrigatório.', 'error'); manutencaoTipoInput.focus(); isValid = false; }
+                else if (custo === '' || isNaN(parseFloat(custo)) || parseFloat(custo) < 0) { // Check if cost is valid number >= 0
+                    mostrarNotificacao('Erro no modal: Custo é obrigatório e deve ser um número válido (0 ou maior).', 'error');
+                    manutencaoCustoInput.focus(); isValid = false;
+                }
+
+                if (!isValid) return;
+
+                const veiculo = garagem.find(v => v.id === veiculoId);
+                if (!veiculo) {
+                    mostrarNotificacao('Erro no modal: Veículo não encontrado no sistema.', 'error');
+                    return;
+                }
+
+                const novaManutencao = {
+                    id: proximoManutencaoId++, // Assign a unique ID
+                    data: data, // Use standard format YYYY-MM-DD HH:MM
+                    tipoServico: tipoServico,
+                    custo: parseFloat(custo), // Store as number
+                    descricao: descricao
+                };
+
+                veiculo.historicoManutencao.push(novaManutencao);
+
+                renderizarHistoricoModal(veiculo); // Update history list in the modal
+                renderizarAgendamentosFuturos(); // Update the global future list
+
+                formManutencao.reset(); // Reset the form
+                manutencaoVeiculoIdInput.value = veiculoId; // Keep the vehicle ID for potentially adding another record
+                modalFlatpickr.clear(); // Clear the date picker
+                mostrarNotificacao(`Manutenção/Agendamento para "${veiculo.modelo}" salvo!`, 'success');
+                manutencaoDataInput.focus(); // Focus date for next entry
+            });
+
+            // Modal Closing Listeners
+            if (modalCloseButton) {
+                modalCloseButton.addEventListener('click', fecharModal);
+            }
+            // Close modal if clicking on the backdrop (the dialog element itself)
+            modalDetalhes.addEventListener('click', (event) => {
+                if (event.target === modalDetalhes) {
+                    fecharModal();
+                }
+            });
+            // Close modal with the Escape key (browser default for <dialog>)
+
+
+            // --- INITIALIZATION ---
+            renderizarGaragem(); // Display initial vehicle list
+            renderizarAgendamentosFuturos(); // Display initial future appointments
+
+        }); // End DOMContentLoaded
+    </script>
+
+</body>
+
+</html>
